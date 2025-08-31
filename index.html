@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #eef5f5;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .form-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      max-width: 700px;
+      width: 100%;
+      border-top: 5px solid #1abc9c;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+    .form-group { margin-bottom: 22px; }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #34495e;
+      font-size: 0.9rem;
+    }
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+    .radio-option:hover { border-color: #1abc9c; }
+    .radio-option.selected {
+      border-color: #16a085;
+      background-color: #f0fffa;
+    }
+    .radio-option input[type="radio"] {
+      margin-top: 4px;
+      margin-right: 15px;
+      flex-shrink: 0;
+      accent-color: #16a085;
+    }
+    .radio-option label { margin-bottom: 0; font-weight: 500; color: #333; line-height: 1.5; }
+    input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus {
+      outline: none;
+      border-color: #1abc9c;
+      box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.15);
+    }
+    hr { border: none; border-top: 1px solid #eee; margin: 30px 0; }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover { background-color: #16a085; transform: translateY(-2px); }
+    #outside-india-fees, #payment-section { display: none; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(-10px);} to {opacity:1; transform:translateY(0);} }
+    #payment-section h2 { text-align: center; color: #2c3e50; }
+    .payment-options {
+      display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 20px;
+    }
+    .qr-code { text-align: center; }
+    .qr-code img {
+      max-width: 250px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 5px;
+    }
+    .payment-info-text { text-align: center; margin-top: 15px; color: #555; font-size: 0.9rem; }
+    .thank-you-message { text-align: center; margin-top: 30px; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <form id="registrationForm" action="https://formspree.io/f/mjkeklbd" method="POST">
+      <div id="form-fields">
+        <h1>Event Registration</h1>
+
+        <div class="form-group"><label for="name">Full Name</label>
+          <input type="text" id="name" name="Full Name" required placeholder="e.g., John Doe">
+        </div>
+
+        <div class="form-group"><label for="email">Email Address</label>
+          <input type="email" id="email" name="Email" required placeholder="e.g., john.doe@example.com">
+        </div>
+
+        <div class="form-group"><label for="organization">Organization / Institution</label>
+          <input type="text" id="organization" name="Organization" required placeholder="e.g., University of Science">
+        </div>
+
+        <div class="form-group"><label for="mobile">Mobile Number</label>
+          <input type="tel" id="mobile" name="Mobile Number" required placeholder="e.g., +91 98765 43210">
+        </div>
+
+        <hr>
+        <!-- Registration Fee for India -->
+        <div class="form-group" id="india-fees">
+          <label>Registration Fee (Participant from India) *</label>
+          <div class="radio-option"><input type="radio" id="student" name="Fee Category" value="Student (India) - INR 1200" required><label for="student">Student/Technician/JRF/SRF/Trainee — INR 1200</label></div>
+          <div class="radio-option"><input type="radio" id="postdoc" name="Fee Category" value="Postdoc (India) - INR 1800"><label for="postdoc">Postdoc/MD/Faculty/Scientist — INR 1800</label></div>
+          <div class="radio-option"><input type="radio" id="company" name="Fee Category" value="Company (India) - INR 2500"><label for="company">Diagnostic Lab/Company — INR 2500</label></div>
+          <div class="radio-option"><input type="radio" id="outside_india_trigger" name="Fee Category" value="Outside India Trigger"><label for="outside_india_trigger">Outside India</label></div>
+        </div>
+
+        <!-- Registration Fee for Outside India -->
+        <div class="form-group" id="outside-india-fees">
+          <label>Registration Fee (Outside India) *</label>
+          <div class="radio-option"><input type="radio" id="saarc" name="Fee Category Outside India" value="SAARC/Africa/SEA/SA - USD 60"><label for="saarc">SAARC/Africa/SEA/South America — USD 60</label></div>
+          <div class="radio-option"><input type="radio" id="other" name="Fee Category Outside India" value="Other Countries - USD 100"><label for="other">Other Countries — USD 100</label></div>
+        </div>
+
+        <hr>
+        <!-- New Fields -->
+        <div class="form-group">
+          <label>Previous Experience in Molecular Biology *</label>
+          <div class="radio-option"><input type="radio" name="experience" value="None" required><label>None</label></div>
+          <div class="radio-option"><input type="radio" name="experience" value="Basic"><label>Basic</label></div>
+          <div class="radio-option"><input type="radio" name="experience" value="Intermediate"><label>Intermediate</label></div>
+          <div class="radio-option"><input type="radio" name="experience" value="Advanced"><label>Advanced</label></div>
+        </div>
+
+        <div class="form-group">
+          <label>How did you hear about our program? *</label>
+          <div class="radio-option"><input type="radio" name="source" value="Social Media" required><label>Social Media</label></div>
+          <div class="radio-option"><input type="radio" name="source" value="Email"><label>Email</label></div>
+          <div class="radio-option"><input type="radio" name="source" value="Whatsapp"><label>Whatsapp</label></div>
+          <div class="radio-option"><input type="radio" name="source" value="Other"><label>Other</label></div>
+        </div>
+
+        <div class="form-group">
+          <label>Would you like to receive info about future programs? *</label>
+          <div class="radio-option"><input type="radio" name="future_info" value="Yes" required><label>Yes</label></div>
+          <div class="radio-option"><input type="radio" name="future_info" value="No"><label>No</label></div>
+        </div>
+
+        <button type="button" id="proceed-button">Proceed to Payment</button>
+      </div>
+
+      <!-- Payment Section -->
+      <div id="payment-section">
+        <h2>Payment Information</h2>
+        <div class="payment-options">
+          <div class="qr-code">
+            <img src="akshit.jpg.png" alt="Payment QR Code" width="300"/>
+            <p>Scan with your payment app</p>
+          </div>
+          <div class="form-group" style="width: 100%; max-width: 400px;">
+            <label for="transaction_id">Name of the Payer & Transaction Number *</label>
+            <input type="text" id="transaction_id" name="Transaction ID" required placeholder="e.g., John Doe - 1234567890">
+          </div>
+        </div>
+        <div class="payment-info-text">
+          <p><b>Outside India:</b> Email <a href="mailto:training@flowsols.com">training@flowsols.com</a> to request a payment link.</p>
+        </div>
+        <button type="submit">Submit Registration</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const registrationForm = document.getElementById('registrationForm');
+      const formFields = document.getElementById('form-fields');
+      const paymentSection = document.getElementById('payment-section');
+      const proceedButton = document.getElementById('proceed-button');
+
+      const outsideIndiaSection = document.getElementById('outside-india-fees');
+      const outsideIndiaRadios = document.querySelectorAll('input[name="Fee Category Outside India"]');
+      const outsideIndiaTrigger = document.getElementById('outside_india_trigger');
+      const radioOptionDivs = document.querySelectorAll('.radio-option');
+
+      // clickable radio highlighting
+      radioOptionDivs.forEach(div => {
+        div.addEventListener('click', function() {
+          const radio = this.querySelector('input[type="radio"]');
+          if (radio && !radio.checked) {
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      });
+
+      const updateHighlights = () => {
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+          const parentDiv = radio.closest('.radio-option');
+          if (parentDiv) parentDiv.classList.toggle('selected', radio.checked);
+        });
+      };
+
+      // toggle outside india section
+      registrationForm.addEventListener('change', function(event) {
+        if (event.target.type === 'radio') {
+          updateHighlights();
+          if (outsideIndiaTrigger.checked) {
+            outsideIndiaSection.style.display = 'block';
+            outsideIndiaRadios.forEach(radio => radio.required = true);
+          } else {
+            outsideIndiaSection.style.display = 'none';
+            outsideIndiaRadios.forEach(radio => { radio.required = false; radio.checked = false; });
+            updateHighlights();
+          }
+        }
+      });
+
+      // Proceed to Payment
+      proceedButton.addEventListener('click', function() {
+        if (formFields.querySelectorAll('input:invalid').length === 0) {
+          formFields.style.display = 'none';
+          paymentSection.style.display = 'block';
+        } else {
+          formFields.querySelector('input:invalid')?.reportValidity();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
